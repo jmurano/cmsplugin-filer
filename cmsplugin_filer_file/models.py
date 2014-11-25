@@ -35,8 +35,11 @@ class FilerFile(CMSPlugin):
     def get_icon_url(self):
         return self.file.icons['32']
 
+    #   20141124 jmurano
+    #   updated to work with S3 without throwing a ValueError
     def file_exists(self):
-        return self.file.file.storage.exists(self.file.path)
+        location = self.file.path or self.file.name or self.file.file.name
+        return self.file.file.storage.exists(location)
 
     def get_file_name(self):
         if self.file.name in ('', None):
